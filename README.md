@@ -1,6 +1,6 @@
 # Shop
 
-> **Work In Progress** - This project is currently under development
+> ⚠️ **Work In Progress** - This project is currently under development
 
 A React Native mobile application built with Expo.
 
