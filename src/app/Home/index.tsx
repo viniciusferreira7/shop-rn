@@ -2,6 +2,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "@/components/button";
 import { Filter } from "@/components/filter";
 import { Input } from "@/components/Input";
+import { Item } from "@/components/item";
 import type { FilterStatus } from "@/types/filter-status";
 import { styles } from "./styles";
 
@@ -25,6 +26,7 @@ export function Home() {
             <Text style={styles.clearText}>Clear</Text>
           </TouchableOpacity>
         </View>
+        <Item data={{ status: "pending", description: "You have a interview soon" }} />
       </View>
     </View>
   );
