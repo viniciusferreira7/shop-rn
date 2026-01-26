@@ -5,7 +5,7 @@ import { styles } from "./styles";
 
 interface FilterProps extends TouchableOpacityProps {
   status: FilterStatus;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 export function Filter({ status, isActive, ...props }: FilterProps) {

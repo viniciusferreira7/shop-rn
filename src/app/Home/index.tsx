@@ -1,8 +1,11 @@
-import { Image, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "@/components/button";
 import { Filter } from "@/components/filter";
 import { Input } from "@/components/Input";
+import type { FilterStatus } from "@/types/filter-status";
 import { styles } from "./styles";
+
+const FILTER_STATUS: FilterStatus[] = ["pending", "done"];
 
 export function Home() {
   return (
@@ -14,8 +17,14 @@ export function Home() {
       </View>
 
       <View style={styles.content}>
-        <Filter status="done" isActive />
-        <Filter status="pending" isActive={false} />
+        <View style={styles.header}>
+          {FILTER_STATUS.map((filterStatus) => (
+            <Filter key={filterStatus} status={filterStatus} isActive />
+          ))}
+          <TouchableOpacity style={styles.clearButton}>
+            <Text style={styles.clearText}>Clear</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
