@@ -5,6 +5,7 @@ import { StatusIcon } from "../status-icon";
 import { styles } from "./styles";
 
 interface ItemData {
+  id: string;
   status: FilterStatus;
   description: string;
 }
