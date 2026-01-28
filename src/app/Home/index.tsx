@@ -79,6 +79,9 @@ export function Home() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <Item data={item} onStatus={() => {}} onRemove={() => {}} />}
           showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          contentContainerStyle={styles.listContent}
+          ListEmptyComponent={() => <Text style={styles.empty}>No item yet</Text>}
         />
       </View>
     </View>
