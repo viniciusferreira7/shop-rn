@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "@/components/button";
 import { Filter } from "@/components/filter";
@@ -57,6 +58,8 @@ const mockItems: ItemData[] = [
 ];
 
 export function Home() {
+  const [activeFilter, setActiveFilter] = useState<FilterStatus | null>(null);
+
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("@/assets/logo.png")} />
@@ -68,9 +71,14 @@ export function Home() {
       <View style={styles.content}>
         <View style={styles.header}>
           {FILTER_STATUS.map((filterStatus) => (
-            <Filter key={filterStatus} status={filterStatus} isActive />
+            <Filter
+              key={filterStatus}
+              status={filterStatus}
+              isActive={activeFilter === filterStatus}
+              onPress={() => setActiveFilter(filterStatus)}
+            />
           ))}
-          <TouchableOpacity style={styles.clearButton}>
+          <TouchableOpacity style={styles.clearButton} onPress={() => setActiveFilter(null)}>
             <Text style={styles.clearText}>Clear</Text>
           </TouchableOpacity>
         </View>
