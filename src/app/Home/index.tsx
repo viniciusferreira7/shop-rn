@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "@/components/button";
 import { Filter } from "@/components/filter";
 import { Input } from "@/components/Input";
@@ -19,6 +19,30 @@ export function Home() {
   const [activeFilter, setActiveFilter] = useState<FilterStatus | null>(null);
   const [items, setItems] = useState<ItemData[]>([]);
   const [currentText, setCurrentText] = useState("");
+
+  function handleAddItem() {
+    if (currentText.trim().length === 0) {
+      Alert.alert("Add", "You must fill the input to add new item");
+    }
+
+    setItems((state) => {
+      if (currentText.trim().length > 0) {
+        const dateTime = Date.now();
+
+        state.push({
+          id: dateTime.toString(),
+          status: "pending",
+          description: currentText,
+        });
+      }
+
+      console.log(state);
+
+      return state.sort((a, b) => new Date(b.id).getTime() - new Date(a.id).getTime());
+    });
+
+    setCurrentText("");
+  }
 
   function handleChangeStatus(data: ItemData) {
     setItems((state) =>
@@ -43,28 +67,7 @@ export function Home() {
           value={currentText}
           onChangeText={(value) => setCurrentText(value)}
         />
-        <Button
-          title="Add to car"
-          onPress={() => {
-            setItems((state) => {
-              if (currentText.trim().length > 0) {
-                const dateTime = Date.now();
-
-                state.push({
-                  id: dateTime.toString(),
-                  status: "pending",
-                  description: currentText,
-                });
-              }
-
-              console.log(state);
-
-              return state.sort((a, b) => new Date(b.id).getTime() - new Date(a.id).getTime());
-            });
-
-            setCurrentText("");
-          }}
-        />
+        <Button title="Add to car" onPress={handleAddItem} />
       </View>
 
       <View style={styles.content}>

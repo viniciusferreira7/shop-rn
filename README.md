@@ -2,14 +2,16 @@
 
 > ⚠️ **Work In Progress** - This project is currently under development
 
-A React Native mobile application built with Expo.
+A React Native shopping list mobile application built with Expo. Manage your shopping cart by adding items, tracking their status, and organizing them with filters.
 
 ## Tech Stack
 
 - React Native 0.81.5
 - React 19.1.0
-- Expo SDK ~54
+- Expo SDK ~54.0.32
 - TypeScript ~5.9.2
+- Lucide React Native ^0.563.0 (icons)
+- Biome ^2.3.11 (linting & formatting)
 
 ## Getting Started
 
@@ -55,9 +57,16 @@ shop/
 
 ## Features
 
+- Add items to your shopping cart
+- Mark items as done or pending
+- Filter items by status (pending/done)
+- Remove items from the list
+- Custom reusable components (Button, Input, Filter, Item)
+- Lucide icons integration
 - Expo new architecture enabled
 - TypeScript support
 - Multi-platform (iOS, Android, Web)
+- Code quality tools (Biome for linting and formatting)
 
 ## License
 
