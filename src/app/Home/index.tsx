@@ -14,58 +14,57 @@ interface ItemData {
 }
 
 const FILTER_STATUS: FilterStatus[] = ["pending", "done"];
-const mockItems: ItemData[] = [
-  {
-    id: "1706000000000",
-    status: "pending",
-    description: "Buy packaging materials",
-  },
-  {
-    id: "1706086400000",
-    status: "done",
-    description: "Post new products on Instagram",
-  },
-  {
-    id: "1706172800000",
-    status: "pending",
-    description: "Reply to customer messages",
-  },
-  {
-    id: "1706259200000",
-    status: "done",
-    description: "Ship today's orders",
-  },
-  {
-    id: "1706345600000",
-    status: "pending",
-    description: "Update product stock manually",
-  },
-  {
-    id: "1706432000000",
-    status: "done",
-    description: "Organize invoices and receipts",
-  },
-  {
-    id: "1706518400000",
-    status: "pending",
-    description: "Prepare weekend promotions",
-  },
-  {
-    id: "1706604800000",
-    status: "done",
-    description: "Check daily sales balance",
-  },
-];
 
 export function Home() {
   const [activeFilter, setActiveFilter] = useState<FilterStatus | null>(null);
+  const [items, setItems] = useState<ItemData[]>([]);
+  const [currentText, setCurrentText] = useState("");
+
+  function handleChangeStatus(data: ItemData) {
+    setItems((state) =>
+      state.map((item) =>
+        item.id === data.id
+          ? { ...item, status: item.status === "done" ? "pending" : "done" }
+          : item
+      )
+    );
+  }
+
+  function handleRemoveItem(data: ItemData) {
+    setItems((state) => state.filter((item) => item.id !== data.id));
+  }
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("@/assets/logo.png")} />
       <View style={styles.form}>
-        <Input placeholder="What you need to buy?" />
-        <Button title="Add to car" />
+        <Input
+          placeholder="What you need to buy?"
+          value={currentText}
+          onChangeText={(value) => setCurrentText(value)}
+        />
+        <Button
+          title="Add to car"
+          onPress={() => {
+            setItems((state) => {
+              if (currentText.trim().length > 0) {
+                const dateTime = Date.now();
+
+                state.push({
+                  id: dateTime.toString(),
+                  status: "pending",
+                  description: currentText,
+                });
+              }
+
+              console.log(state);
+
+              return state.sort((a, b) => new Date(b.id).getTime() - new Date(a.id).getTime());
+            });
+
+            setCurrentText("");
+          }}
+        />
       </View>
 
       <View style={styles.content}>
@@ -83,13 +82,19 @@ export function Home() {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={mockItems}
+          data={items.filter((item) => item.status === activeFilter || !activeFilter)}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Item data={item} onStatus={() => {}} onRemove={() => {}} />}
+          renderItem={({ item }) => (
+            <Item
+              data={item}
+              onStatus={() => handleChangeStatus(item)}
+              onRemove={() => handleRemoveItem(item)}
+            />
+          )}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           contentContainerStyle={styles.listContent}
-          ListEmptyComponent={() => <Text style={styles.empty}>No item yet</Text>}
+          ListEmptyComponent={() => <Text style={styles.empty}>No items yet</Text>}
         />
       </View>
     </View>
